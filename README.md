@@ -1,4 +1,4 @@
-![Full PyChess Logo, By: Daniel Nguyen](/assets/img/logo_full.png)
+<p align="center"><img src="/assets/img/logo_full.png" alt="Full PyChess Logo, By: Daniel Nguyen"></p>
 
 A simple chess game using Python & Pyglet.
 
