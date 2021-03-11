@@ -5,5 +5,4 @@ import pyglet
 from pyglet.gl import *
 from .resources import *
 from .constants import *
-from .util import *
 from pyglet.window import mouse
