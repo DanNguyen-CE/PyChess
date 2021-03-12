@@ -122,9 +122,10 @@ def init():
                 music_player.play()
             
             else:
-                aud = [select, place, take, invalid]
+                aud = [select, place, capture, invalid]
                 rng = randrange(len(aud))
                 music_player.next_source()
+                music_player.volume = 0.3
                 music_player.queue(aud[rng])
                 music_player.play()
     
@@ -138,6 +139,7 @@ def init():
         menu_batch.draw()
         
     # Start music on start
+    music_player.volume = 1
     music_player.queue(menu_melody)
     music_player.play()
 

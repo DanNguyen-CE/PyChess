@@ -39,8 +39,8 @@ start_jingle = pyglet.resource.media('Start.mp3')
 end_jingle = pyglet.resource.media('End.mp3')
 select = pyglet.resource.media('Select.mp3')
 place = pyglet.resource.media('Place.mp3')
+capture = pyglet.resource.media('Capture.mp3')
 invalid = pyglet.resource.media('Invalid.mp3')
-take = pyglet.resource.media('Take.mp3')
 
 # Load Font Resources
 font = pyglet.resource.add_font('Minecraft.ttf')
