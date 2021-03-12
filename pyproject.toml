@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "PyChess"
-version = "0.1.0"
-description = ""
-authors = ["DanNguyen-CE <dan.nguyen001@gmail.com>"]
+version = "0.2.0"
+description = "A simple chess application made in Python with Pyglet."
+authors = ["DanNguyen-CE"]
 
 [tool.poetry.dependencies]
 python = "^3.8"

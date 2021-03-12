@@ -26,4 +26,6 @@ $ ./PyChess> poetry run pychess
 
 ## Credits
 - Image assets created by Daniel Nguyen
-- Audio files from freesound.org
+- Sound effects created by Daniel Nguyen
+- Melody music created by FoolBoyMedia ([freesound.org](https://freesound.org/people/FoolBoyMedia/sounds/275673/))
+- Minecraft font created by Crafton Gaming ([dafont.com](https://www.dafont.com/minecraft.font))
