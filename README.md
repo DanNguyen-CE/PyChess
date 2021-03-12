@@ -6,6 +6,8 @@ A simple chess game using Python & Pyglet.
 
 WORK IN PROGRESS...............
 
+<p align="center"><img src="/assets/img/game_screen.png" alt="PyChess Screenshot" width="300"></p>
+
 ## How To Run
 
 General Requirements: [``Python3``](https://www.python.org/downloads/), [``Poetry``](https://python-poetry.org/docs/)
