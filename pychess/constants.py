@@ -49,7 +49,22 @@ init_board_state = numpy.array( # The inital board state
     ]
 )
 
-init_board_state = numpy.flipud(init_board_state) # Flipping the array here for easier coordinates to work with
+spec_board_state = numpy.array( # A special board state
+    [
+        [ 0,  0,  0, -1, -2, -3, -4, -6],
+        [ 0,  0,  0,  0, -1, -1, -5, -3],
+        [ 0,  0,  0,  0,  0, -1, -1, -4],
+        [ 1,  0,  0,  0,  0,  0, -1, -2],
+        [ 2,  1,  0,  0,  0,  0,  0, -1],
+        [ 4,  1,  1,  0,  0,  0,  0,  0],
+        [ 3,  5,  1,  1,  0,  0,  0,  0],
+        [ 6,  4,  3,  2,  1,  0,  0,  0],
+    ]
+)
+
+# Flipping the array here because array coordinates and board coordinates are flipped.
+init_board_state = numpy.flipud(init_board_state)
+spec_board_state = numpy.flipud(spec_board_state)
 
 ON_RUN_MESSAGE = [
     'PyChess is now running! NOTE: This is a WIP version of the application.',

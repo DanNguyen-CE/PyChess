@@ -1,5 +1,6 @@
 import pyglet
 from .constants import PIECE_SIZE
+from itertools import chain
 
 def center_image(image):
     """Sets an image's anchor point to its center"""
@@ -45,40 +46,46 @@ invalid = pyglet.resource.media('Invalid.mp3')
 # Load Font Resources
 font = pyglet.resource.add_font('Minecraft.ttf')
 
-# Load all chess piece images. Scale to correct size, and center anchor. TODO: NEEDS REFACTORING
-class Black():
-    king = pyglet.resource.image('king_black.png'); resize_image(king, PIECE_SIZE, PIECE_SIZE); center_image(king)
-    queen = pyglet.resource.image('queen_black.png'); resize_image(queen, PIECE_SIZE, PIECE_SIZE); center_image(queen)
-    bishop = pyglet.resource.image('bishop_black.png'); resize_image(bishop, PIECE_SIZE, PIECE_SIZE); center_image(bishop)
-    knight = pyglet.resource.image('knight_black.png'); resize_image(knight, PIECE_SIZE, PIECE_SIZE); center_image(knight)
-    rook = pyglet.resource.image('rook_black.png'); resize_image(rook, PIECE_SIZE, PIECE_SIZE); center_image(rook)
-    pawn = pyglet.resource.image('pawn_black.png'); resize_image(pawn, PIECE_SIZE, PIECE_SIZE); center_image(pawn)
+# Load Chess Pieces
+white_pieces = [
+    pyglet.resource.image('pawn_white.png'),
+    pyglet.resource.image('rook_white.png'),
+    pyglet.resource.image('knight_white.png'),
+    pyglet.resource.image('bishop_white.png'),
+    pyglet.resource.image('queen_white.png'),
+    pyglet.resource.image('king_white.png')
+]
 
-class White():
-    king = pyglet.resource.image('king_white.png'); resize_image(king, PIECE_SIZE, PIECE_SIZE); center_image(king)
-    queen = pyglet.resource.image('queen_white.png'); resize_image(queen, PIECE_SIZE, PIECE_SIZE); center_image(queen)
-    bishop = pyglet.resource.image('bishop_white.png'); resize_image(bishop, PIECE_SIZE, PIECE_SIZE); center_image(bishop)
-    knight = pyglet.resource.image('knight_white.png'); resize_image(knight, PIECE_SIZE, PIECE_SIZE); center_image(knight)
-    rook = pyglet.resource.image('rook_white.png'); resize_image(rook, PIECE_SIZE, PIECE_SIZE); center_image(rook)
-    pawn = pyglet.resource.image('pawn_white.png'); resize_image(pawn, PIECE_SIZE, PIECE_SIZE); center_image(pawn)
+black_pieces = [
+    pyglet.resource.image('pawn_black.png'),
+    pyglet.resource.image('rook_black.png'),
+    pyglet.resource.image('knight_black.png'),
+    pyglet.resource.image('bishop_black.png'),
+    pyglet.resource.image('queen_black.png'),
+    pyglet.resource.image('king_black.png')
+]
+
+for img in chain(white_pieces, black_pieces):
+    resize_image(img, PIECE_SIZE, PIECE_SIZE)
+    center_image(img)
 
 def get_piece_sprite(piece):
     """Gets chess piece sprite from index of range(-6, 6).
        Returns None if piece index does not exist
     """
     switcher = {
-        6: White.king,
-        5: White.queen,
-        4: White.bishop,
-        3: White.knight,
-        2: White.rook,
-        1: White.pawn,
-        -1: Black.pawn,
-        -2: Black.rook,
-        -3: Black.knight,
-        -4: Black.bishop,
-        -5: Black.queen,
-        -6: Black.king,
+        6: white_pieces[5],
+        5: white_pieces[4],
+        4: white_pieces[3],
+        3: white_pieces[2],
+        2: white_pieces[1],
+        1: white_pieces[0],
+        -1: black_pieces[0],
+        -2: black_pieces[1],
+        -3: black_pieces[2],
+        -4: black_pieces[3],
+        -5: black_pieces[4],
+        -6: black_pieces[5],
     }
 
     return switcher.get(piece, None)
