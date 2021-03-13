@@ -28,5 +28,6 @@ $ ./PyChess> poetry run pychess
 
 ## Credits
 - Image/sprite assets created by Daniel Nguyen
-- Music & sound effects created by Daniel Nguyen on ([BeepBox](www.beepbox.co))
+- Sound effects created by Daniel Nguyen
+- Arcade music created by joshuaempyre ([freesound.org](https://freesound.org/people/joshuaempyre/sounds/251461/))
 - Minecraft font created by Crafton Gaming ([dafont.com](https://www.dafont.com/minecraft.font))

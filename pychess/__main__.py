@@ -25,7 +25,8 @@ def init():
             anchor_x='center', anchor_y='center',
             batch=menu_batch),
         pyglet.text.Label( # Author Label
-            'A simple chess application created by Daniel Nguyen (2021).\nPowered by Pyglet.',
+            ('A simple chess application created by Daniel Nguyen (2021).\n'
+            'Arcade Music by joshuaempyre (freesound.org)\nPowered by Pyglet.'),
             font_name='Minecraft', font_size=10,
             x=WINDOW_SIZE/2, y=WINDOW_SIZE/2 - 250,
             anchor_x='center', anchor_y='center',
@@ -69,7 +70,7 @@ def init():
     def create_piece(piece, pos_x, pos_y): # Add sprite pieces to board
         sprite = get_piece_sprite(piece)
         if sprite:
-            pieces[pos_y, pos_x] = pyglet.sprite.Sprite(
+            pieces[pos_x, pos_y] = pyglet.sprite.Sprite(
                                     sprite,
                                     pos_x*SQUARE_SIZE + BOARD_OFFSET_X,
                                     pos_y*SQUARE_SIZE + BOARD_OFFSET_Y,
@@ -90,13 +91,13 @@ def init():
 
     @window.event
     def on_mouse_motion(x, y, dx, dy):
-        # Floor cursor position to grid. Offsets so grid lines up with board.
-        board_x = (x-CURSOR_OFFSET_X) // SQUARE_SIZE + GRID_OFFSET_X
-        board_y = (y-CURSOR_OFFSET_Y) // SQUARE_SIZE + GRID_OFFSET_Y
+        board_x, board_y = pixel_to_grid(x, y)
 
         # Only show selection when within board area.
-        if x > BOARD_LIMIT_LO[0] and y > BOARD_LIMIT_LO[1] and x < BOARD_LIMIT_HI[0] and y < BOARD_LIMIT_HI[1]:
-            select_square.position = (
+        if (x > BOARD_LIMIT_LO[0] and y > BOARD_LIMIT_LO[1] 
+            and x < BOARD_LIMIT_HI[0] and y < BOARD_LIMIT_HI[1]):
+
+            select_square.position = ( # Grid coordinate to pixel position
                 board_x * SQUARE_SIZE,
                 board_y * SQUARE_SIZE)
             select_square.visible = True
@@ -111,24 +112,63 @@ def init():
     def on_mouse_leave(x, y):
         select_square.visible = False
 
+    enabled = True
+    selected_x = 8
+    selected_y = 8
+    old_pos = 0
+
     @window.event
     def on_mouse_press(x, y, button, modifiers):
+        nonlocal old_pos, selected_x, selected_y, enabled
+
         if button == mouse.LEFT:
-            if start_menu[0]._vertex_list: # Check if vertex list is None (means already deleted)
-                for item in start_menu: # Delete start screen on first click
+            if start_menu[0]._vertex_list:  # Check if vertex list is None (means already deleted)
+                for item in start_menu:     # Delete start screen on first click
                     item.delete()
-                music_player.next_source()
-                music_player.queue(start_jingle)
-                music_player.play()
+                play_sound(music_player, start_jingle, 1)
             
-            else:
-                aud = [select, place, capture, invalid]
-                rng = randrange(len(aud))
-                music_player.next_source()
-                music_player.volume = 0.3
-                music_player.queue(aud[rng])
-                music_player.play()
-    
+            else: # Get piece coordinates on click
+                board_x, board_y = pixel_to_grid(x, y, True)
+
+                if valid_range(board_x, board_y) and pieces[board_x, board_y] is not None:
+                    enabled = True
+                    play_sound(music_player, select, 0.3)
+                    selected_x, selected_y = board_x, board_y
+                    old_pos = pieces[board_x, board_y].position
+
+    @window.event
+    def on_mouse_drag(x, y, dx, dy, buttons, modifiers):
+        if not valid_range(selected_x, selected_y):
+            return
+
+        if pieces[selected_x, selected_y] is not None:
+            pieces[selected_x,selected_y].position = x, y
+
+    @window.event
+    def on_mouse_release(x, y, button, modifiers):
+        nonlocal enabled
+        
+        if not valid_range(selected_x, selected_y):
+            return
+
+        new_x, new_y = pixel_to_grid(x, y, True)
+
+        if (valid_range(new_x, new_y) and pieces[new_x,new_y] is None
+            and pieces[selected_x,selected_y] is not None):
+            play_sound(music_player, place, 0.3)
+            pieces[selected_x,selected_y].position = (          # Grid coordinate to pixel position
+                (new_x + NORMALIZE_X) * SQUARE_SIZE,
+                (new_y + NORMALIZE_Y) * SQUARE_SIZE)
+            pieces[new_x,new_y] = pieces[selected_x,selected_y] # Update piece position in array
+            pieces[selected_x,selected_y] = None                # Remove old piece
+        
+        elif pieces[selected_x,selected_y] is not None:         # If placed in invalid position, return to old position
+            if enabled:
+                play_sound(music_player, invalid, 0.3)
+                enabled = False
+            pieces[selected_x, selected_y].position = old_pos
+
+
     @window.event
     def on_draw(): # Draw to window
         window.clear()
@@ -139,12 +179,10 @@ def init():
         menu_batch.draw()
         
     # Start music on start
-    music_player.volume = 1
-    music_player.queue(menu_melody)
-    music_player.play()
+    play_sound(music_player, menu_melody, 1)
 
     rng = randrange(len(ON_RUN_MESSAGE))
-    print(ON_RUN_MESSAGE[rng])
+    print(f"\033[92m{ON_RUN_MESSAGE[rng]}\033[0m\n")
     pyglet.app.run()
 
 def main():

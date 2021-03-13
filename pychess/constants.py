@@ -20,6 +20,8 @@ CURSOR_OFFSET_Y = BOARD_OFFSET_Y - SQUARE_SIZE * (BOARD_OFFSET_Y//SQUARE_SIZE) -
 BOARD_LIMIT_MARGIN = 5
 BOARD_LIMIT_LO = (BOARD_OFFSET_X-SQUARE_SIZE/2 + BOARD_LIMIT_MARGIN, BOARD_OFFSET_Y-SQUARE_SIZE/2 + BOARD_LIMIT_MARGIN)
 BOARD_LIMIT_HI = (BOARD_LIMIT_LO[0] + SQUARE_SIZE*8 - BOARD_LIMIT_MARGIN, BOARD_LIMIT_LO[1] + SQUARE_SIZE*8 - BOARD_LIMIT_MARGIN)
+NORMALIZE_X = 2.9 # The bottom left corner board_x coordinate
+NORMALIZE_Y = 4.2 # The bottom left corner board_y coordinate
 
 # Piece positions range from 0-7 on both axis, starting from the bottom left:
 #   ...      ...      ...
@@ -69,6 +71,7 @@ spec_board_state = numpy.flipud(spec_board_state)
 ON_RUN_MESSAGE = [
     'PyChess is now running! NOTE: This is a WIP version of the application.',
     'Hover over the chessboard to see highlighting!',
+    'Click and drag pieces to move them. You can also click to move as well.',
     '[\'hip\', \'hip\'] (hip hip array!)',
     '(╯°□°)╯︵ ┻━┻',
     '( ͡° ͜ʖ ͡°)',
