@@ -17,16 +17,15 @@ def init():
     # Create Start Screen Menu Items
     start_menu = [
         pyglet.shapes.Rectangle(WINDOW_SIZE/2, WINDOW_SIZE /2, WINDOW_SIZE, WINDOW_SIZE, BG_COLOR, batch=screen_batch), # BG
-        pyglet.sprite.Sprite(resources.logo_large, WINDOW_SIZE / 2, WINDOW_SIZE / 2 + 200, batch=menu_batch), # Logo
+        pyglet.sprite.Sprite(logo_large, WINDOW_SIZE / 2, WINDOW_SIZE / 2 + 200, batch=menu_batch), # Logo
         pyglet.text.Label( # Start Label
-            '> Click anywhere to play! <', 
+            START_LABEL, 
             font_name='Minecraft', font_size=20,
             x=WINDOW_SIZE/2, y=WINDOW_SIZE/2,
             anchor_x='center', anchor_y='center',
             batch=menu_batch),
         pyglet.text.Label( # Author Label
-            ('A simple chess application created by Daniel Nguyen (2021).\n'
-            'Arcade Music by joshuaempyre (freesound.org)\nPowered by Pyglet.'),
+            AUTHOR_LABEL,
             font_name='Minecraft', font_size=10,
             x=WINDOW_SIZE/2, y=WINDOW_SIZE/2 - 250,
             anchor_x='center', anchor_y='center',
@@ -127,7 +126,7 @@ def init():
                     item.delete()
                 play_sound(music_player, start_jingle, 1)
             
-            else: # Get piece coordinates on click
+            else: # Get piece coordinates and position on click
                 board_x, board_y = pixel_to_grid(x, y, True)
 
                 if valid_range(board_x, board_y) and pieces[board_x, board_y] is not None:
@@ -142,11 +141,11 @@ def init():
             return
 
         if pieces[selected_x, selected_y] is not None:
-            pieces[selected_x,selected_y].position = x, y
+            pieces[selected_x,selected_y].position = x, y   # Move piece with cursor position
 
     @window.event
     def on_mouse_release(x, y, button, modifiers):
-        nonlocal enabled
+        nonlocal selected_x, selected_y, enabled
         
         if not valid_range(selected_x, selected_y):
             return
@@ -162,12 +161,13 @@ def init():
             pieces[new_x,new_y] = pieces[selected_x,selected_y] # Update piece position in array
             pieces[selected_x,selected_y] = None                # Remove old piece
         
-        elif pieces[selected_x,selected_y] is not None:         # If placed in invalid position, return to old position
-            if enabled:
+        elif pieces[selected_x,selected_y] is not None:         # If placed in invalid position
+            if (enabled and not                                 # Play sound if enabled and not placed on itself
+                (selected_x == new_x and selected_y == new_y)):
                 play_sound(music_player, invalid, 0.3)
                 enabled = False
-            pieces[selected_x, selected_y].position = old_pos
-
+            pieces[selected_x, selected_y].position = old_pos   # Return to old position
+            selected_x = selected_y = 8
 
     @window.event
     def on_draw(): # Draw to window

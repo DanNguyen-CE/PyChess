@@ -1,6 +1,12 @@
 import numpy
 
 NAME = 'PyChess'
+START_LABEL = '> Click anywhere to play! <'
+AUTHOR_LABEL = ('A simple chess application created by Daniel Nguyen (2021).\n'
+                'Arcade Music by joshuaempyre (freesound.org).\n'
+                'Powered by Pyglet.')
+
+
 BG_COLOR = (44, 52, 66)
 BOARD_COLOR = (63, 74, 89)
 BOARD_ALT_COLOR = (200, 200, 200)

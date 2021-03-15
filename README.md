@@ -12,7 +12,7 @@ WORK IN PROGRESS...............
 
 General Requirements: [``Python3``](https://www.python.org/downloads/), [``Poetry``](https://python-poetry.org/docs/)
 
-[Pyglet Requirements](https://github.com/pyglet/pyglet#requirements):
+[Pyglet Requirements](https://github.com/pyglet/pyglet#requirements) (Pyglet will be installed by Poetry):
 1. Windows 7 or later
 2. Mac OS X 10.3 or later
 3. Linux, with the following libraries (most recent distributions will have these in a default installation):
