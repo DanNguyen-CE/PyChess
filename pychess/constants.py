@@ -13,21 +13,23 @@ BOARD_ALT_COLOR = (200, 200, 200)
 BORDER_COLOR = (0, 0, 0)
 BORDER_SIZE = 5
 WINDOW_SIZE = 640
-SQUARE_SIZE = 400 // 8
+BOARD_SIZE = 400
+SQUARE_SIZE = BOARD_SIZE // 8
 PIECE_SIZE = SQUARE_SIZE - 10
-BOARD_OFFSET_X = 145
-BOARD_OFFSET_Y = 210
+BOARD_OFFSET_X = (BOARD_SIZE // 2) - SQUARE_SIZE - 5
+BOARD_OFFSET_Y = (BOARD_SIZE // 2) + SQUARE_SIZE // 5
 
-# Constants used for grid hightlighting
+# Constants used for grid highlighting
 GRID_OFFSET_X = (BOARD_OFFSET_X / SQUARE_SIZE) % 1
 GRID_OFFSET_Y = (BOARD_OFFSET_Y / SQUARE_SIZE) % 1
 CURSOR_OFFSET_X = BOARD_OFFSET_X - SQUARE_SIZE * (BOARD_OFFSET_X//SQUARE_SIZE) - SQUARE_SIZE/2
 CURSOR_OFFSET_Y = BOARD_OFFSET_Y - SQUARE_SIZE * (BOARD_OFFSET_Y//SQUARE_SIZE) - SQUARE_SIZE/2
-BOARD_LIMIT_MARGIN = 5
-BOARD_LIMIT_LO = (BOARD_OFFSET_X-SQUARE_SIZE/2 + BOARD_LIMIT_MARGIN, BOARD_OFFSET_Y-SQUARE_SIZE/2 + BOARD_LIMIT_MARGIN)
-BOARD_LIMIT_HI = (BOARD_LIMIT_LO[0] + SQUARE_SIZE*8 - BOARD_LIMIT_MARGIN, BOARD_LIMIT_LO[1] + SQUARE_SIZE*8 - BOARD_LIMIT_MARGIN)
+BOARD_LIMIT_LO = (BOARD_OFFSET_X - SQUARE_SIZE/2, BOARD_OFFSET_Y - SQUARE_SIZE/2)
+BOARD_LIMIT_HI = (BOARD_LIMIT_LO[0] + SQUARE_SIZE*8, BOARD_LIMIT_LO[1] + SQUARE_SIZE*8)
 NORMALIZE_X = 2.9 # The bottom left corner board_x coordinate
 NORMALIZE_Y = 4.2 # The bottom left corner board_y coordinate
+
+# print(CURSOR_OFFSET_X, CURSOR_OFFSET_Y)
 
 # Piece positions range from 0-7 on both axis, starting from the bottom left:
 #   ...      ...      ...
@@ -44,7 +46,7 @@ NORMALIZE_Y = 4.2 # The bottom left corner board_y coordinate
 # Queen = 5
 # King = 6
 
-init_board_state = numpy.array( # The inital board state
+init_board_state = numpy.array( # The initial board state
     [
         [-2, -3, -4, -5, -6, -4, -3, -2],
         [-1, -1, -1, -1, -1, -1, -1, -1],
@@ -70,9 +72,14 @@ spec_board_state = numpy.array( # A special board state
     ]
 )
 
-# Flipping the array here because array coordinates and board coordinates are flipped.
-init_board_state = numpy.flipud(init_board_state)
-spec_board_state = numpy.flipud(spec_board_state)
+print('Creating Board State...')
+print('\n'.join([''.join(['{:4}'.format(item) for item in row]) 
+    for row in init_board_state]))
+
+# Board states are set up like this for readability.
+# Rotate array clockwise 90 degrees to fit board coordinates.
+init_board_state = numpy.rot90(init_board_state, -1)
+spec_board_state = numpy.rot90(spec_board_state, -1)
 
 ON_RUN_MESSAGE = [
     'PyChess is now running! NOTE: This is a WIP version of the application.',

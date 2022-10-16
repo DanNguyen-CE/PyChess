@@ -8,8 +8,14 @@ def pixel_to_grid(x, y, normalize=False):
     new_y = (y-CURSOR_OFFSET_Y) // SQUARE_SIZE + GRID_OFFSET_Y
 
     if normalize:
-        new_x, new_y, = round(new_x - NORMALIZE_X), round(new_y - NORMALIZE_Y)
+        new_x, new_y = round(new_x - NORMALIZE_X), round(new_y - NORMALIZE_Y)
     
+    return new_x, new_y
+
+def grid_to_pixel(x, y, normalize=True):
+    new_x = (x + (NORMALIZE_X if normalize else 0)) * SQUARE_SIZE
+    new_y = (y + (NORMALIZE_Y if normalize else 0)) * SQUARE_SIZE
+
     return new_x, new_y
 
 def valid_range(x, y):
