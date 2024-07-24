@@ -72,10 +72,6 @@ spec_board_state = numpy.array( # A special board state
     ]
 )
 
-print('Creating Board State...')
-print('\n'.join([''.join(['{:4}'.format(item) for item in row]) 
-    for row in init_board_state]))
-
 # Board states are set up like this for readability.
 # Rotate array clockwise 90 degrees to fit board coordinates.
 init_board_state = numpy.rot90(init_board_state, -1)
